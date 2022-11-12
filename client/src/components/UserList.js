@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 import {
   Table,
   TableBody,
@@ -20,7 +21,10 @@ const UserList = () => {
           <TableBody>
             {users.map((user) => (
               <TableRow key={user.id}>
-                <TableCell>{user.name}</TableCell>
+                <TableCell>
+                  <Link to={`/users/${user.id}`}>{user.name}</Link>
+                </TableCell>
+                <TableCell>Blogs created: {user.blogs.length}</TableCell>
               </TableRow>
             ))}
           </TableBody>

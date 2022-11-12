@@ -7,6 +7,7 @@ import { Container } from '@mui/material'
 import Welcome from './components/Welcome'
 import BlogList from './components/BlogList'
 import Blog from './components/Blog'
+import User from './components/User'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import NewBlogForm from './components/NewBlogForm'
@@ -55,6 +56,7 @@ const App = () => {
           <Route path="/blogs" element={<BlogList />} />
           <Route path="/blogs/:id" element={<Blog />} />
           <Route path="/users" element={<UserList />} />
+          <Route path="/users/:id" element={<User />} />
         </Routes>
         <Togglable buttonLabel="Create New Blog" ref={blogFormRef}>
           <NewBlogForm />

@@ -21,6 +21,7 @@ blogsRouter.post('/', userExtractor, async (request, response) => {
     author: body.author,
     url: body.url,
     likes: body.likes || 0,
+    comments: body.comments || [],
     user: user._id,
   })
 
@@ -53,6 +54,7 @@ blogsRouter.put('/:id', (request, response, next) => {
     author: body.author,
     url: body.url,
     likes: body.likes,
+    comments: body.comments,
     user: body.user.id,
   }
 
@@ -62,5 +64,24 @@ blogsRouter.put('/:id', (request, response, next) => {
     })
     .catch((error) => next(error))
 })
+
+// blogsRouter.post('/:id/comments', (request, response, next) => {
+//   const { body } = request
+//   const { id } = request.params
+
+//   const blog = {
+//     title: body.title,
+//     author: body.author,
+//     url: body.url,
+//     likes: body.likes,
+//     user: body.user.id,
+//   }
+
+//   Blog.findByIdAndUpdate(id, blog, { new: true })
+//     .then((updatedBlog) => {
+//       response.json(updatedBlog)
+//     })
+//     .catch((error) => next(error))
+// })
 
 module.exports = blogsRouter

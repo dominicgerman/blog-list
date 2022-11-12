@@ -3,13 +3,16 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import { updateBlog } from '../reducers/blogReducer'
 import { deleteBlog } from '../reducers/blogReducer'
-import { Button } from '@mui/material'
+import loginService from '../services/login'
+import { Button, TextField } from '@mui/material'
 
 const Blog = () => {
-  const [visible, setVisible] = useState(false)
+  const [visible, setVisible] = useState(true)
+  const [newComment, setNewComment] = useState('')
 
   const { id } = useParams()
   const blog = useSelector((state) => state.blogs.find((b) => b.id === id))
+  const loggedUsername = loginService.getLoggedUser().username
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -34,8 +37,21 @@ const Blog = () => {
 
   const addLike = () => {
     const { id } = blog
-    console.log(id)
     dispatch(updateBlog(id, { ...blog, likes: blog.likes + 1 }))
+  }
+
+  const addComment = () => {
+    const { id } = blog
+    dispatch(
+      updateBlog(id, {
+        ...blog,
+        comments:
+          blog.comments.length > 0
+            ? [...blog.comments, newComment]
+            : [newComment],
+      })
+    )
+    setNewComment('')
   }
 
   const removeBlog = () => {
@@ -46,13 +62,11 @@ const Blog = () => {
   return (
     <div style={blogStyle} className="blogDisplay">
       <div>
-        <strong>{blog?.title}</strong> by {blog?.author}
-        <Button onClick={toggleVisibility} className="toggleView">
-          {visible ? 'Hide details' : 'View details'}
-        </Button>
+        <h1>{blog?.title}</h1>
+        by {blog?.author}
       </div>
       <div style={showWhenVisible} className="hiddenByDefault">
-        <p>URL: {blog?.url}</p>
+        <p>{blog?.url}</p>
         <p>Likes: {blog?.likes}</p>{' '}
         <Button
           color="secondary"
@@ -62,10 +76,41 @@ const Blog = () => {
         >
           Like
         </Button>
-        <Button onClick={removeBlog} className="removeButton">
+        <h2>Comments</h2>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <TextField
+              type="text"
+              className="commentInput"
+              id="outlined-multiline-flexible"
+              label="Comment"
+              multiline
+              value={newComment}
+              onChange={({ target }) => setNewComment(target.value)}
+            />
+            <Button color="secondary" variant="outlined" onClick={addComment}>
+              Add comment
+            </Button>
+          </div>
+        </div>
+        <ul>
+          {blog?.comments?.map((c) => (
+            <li key={Math.random()}>{c}</li>
+          ))}
+        </ul>
+      </div>
+      <Button onClick={toggleVisibility} className="toggleView">
+        {visible ? 'Hide details' : 'View details'}
+      </Button>
+      {loggedUsername === blog.user.username ? (
+        <Button
+          style={{ display: 'block' }}
+          onClick={removeBlog}
+          className="removeButton"
+        >
           Remove Blog
         </Button>
-      </div>
+      ) : null}
     </div>
   )
 }
