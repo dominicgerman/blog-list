@@ -16,32 +16,38 @@ const Nav = ({ user }) => {
 
   return (
     <AppBar position="static">
-      <Toolbar>
-        <Button color="inherit" component={Link} to="/">
-          Home
-        </Button>
-        <Button color="inherit" component={Link} to="/blogs">
-          Blogs
-        </Button>
-        <Button color="inherit" component={Link} to="/users">
-          Users
-        </Button>
-        {user ? (
-          <div style={style}>
-            <em>{user} is logged in</em>
-            <Button
-              onClick={() => dispatch(userLogout())}
-              color="secondary"
-              variant="contained"
-            >
-              Logout
-            </Button>
-          </div>
-        ) : (
-          <Button color="inherit" component={Link} to="/login">
-            login
+      <Toolbar style={{ justifyContent: 'space-between' }}>
+        {/* <div style={{ display: 'flex', justifyContent: 'space-between' }}> */}
+        <div>
+          <Button color="inherit" component={Link} to="/">
+            Home
           </Button>
-        )}
+          <Button color="inherit" component={Link} to="/blogs">
+            Blogs
+          </Button>
+          <Button color="inherit" component={Link} to="/users">
+            Users
+          </Button>
+        </div>
+        <div>
+          {user ? (
+            <div style={style}>
+              <em>{user} is logged in</em>
+              <Button
+                onClick={() => dispatch(userLogout())}
+                color="secondary"
+                variant="contained"
+              >
+                Logout
+              </Button>
+            </div>
+          ) : (
+            <Button color="inherit" component={Link} to="/login">
+              login
+            </Button>
+          )}
+        </div>
+        {/* </div> */}
       </Toolbar>
     </AppBar>
   )

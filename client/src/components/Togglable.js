@@ -5,6 +5,10 @@ import { Button } from '@mui/material'
 const Togglable = forwardRef((props, refs) => {
   const [visible, setVisible] = useState(false)
 
+  const styles = {
+    display: 'flex',
+    justifyContent: 'center',
+  }
   const hideWhenVisible = { display: visible ? 'none' : '', marginTop: '1rem' }
   const showWhenVisible = { display: visible ? '' : 'none', marginTop: '1rem' }
 
@@ -19,7 +23,7 @@ const Togglable = forwardRef((props, refs) => {
   })
 
   return (
-    <div>
+    <div style={styles}>
       <div style={hideWhenVisible}>
         <Button variant="outlined" onClick={toggleVisibility}>
           {props.buttonLabel}
